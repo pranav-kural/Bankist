@@ -47,3 +47,14 @@ header.append(message);
 
 // delete cookie message
 document.querySelector('.btn--close-cookie').addEventListener('click', () => message.remove());
+
+// styling
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+// getting declared (not inline) styles of an element
+// getComputedStyle(message).color;
+
+message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+// changing css properties at root / document level (ex: implementing dark mode)
+// document.documentElement.style.setProperty('--color-primary', 'orangered');
