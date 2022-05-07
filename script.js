@@ -58,3 +58,24 @@ message.style.width = '120%';
 message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 // changing css properties at root / document level (ex: implementing dark mode)
 // document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+///////////////////////////////////////
+// Smooth scroll to section 1
+
+document.querySelector('.btn--scroll-to').addEventListener('click', 
+    () => document.querySelector('#section--1').scrollIntoView({behavior: 'smooth'}));
+
+// NOTE: for older browsers which don't support Element.scrollIntoView()
+//
+// const btnScrollTo = document.querySelector('.btn--scroll-to');
+// const section1 = document.querySelector('#section--1');
+// btnScrollTo.addEventListener('click', (e) => {
+//   // get coordinates of section 1 relative to the viewport
+//   const s1coords = section1.getBoundingClientRect();
+//   // scroll to section1
+//   window.scrollTo({
+//     left: s1coords.left + window.pageXOffset,
+//     top: s1coords.top + window.pageYOffset,
+//     // behavior: 'smooth',
+//   });
+// });
