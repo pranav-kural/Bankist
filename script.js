@@ -1,6 +1,10 @@
 'use strict';
 
 ///////////////////////////////////////
+// Selecting common document elements
+const header = document.querySelector('.header');
+
+///////////////////////////////////////
 // Modal window
 
 const modal = document.querySelector('.modal');
@@ -29,3 +33,17 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+///////////////////////////////////////
+// Cookie Message
+
+// add cookie message
+const message = document.createElement('div');
+message.classList.add('cookie-message');
+message.innerHTML = `
+  We use cookies for improved functionality and analytics. 
+  <button class="btn btn--close-cookie">Got it!</button>`;
+header.append(message);
+
+// delete cookie message
+document.querySelector('.btn--close-cookie').addEventListener('click', () => message.remove());
