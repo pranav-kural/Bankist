@@ -79,3 +79,35 @@ document.querySelector('.btn--scroll-to').addEventListener('click',
 //     // behavior: 'smooth',
 //   });
 // });
+
+///////////////////////////////////////
+// Modal window
+
+/**
+ * Using Event propagation (specifically the bubbling phase) to implement event deligation
+ * Instead of attaching same event handling function to each child element, we simple implement
+ * the logic in a single event handling function which is attached to the parent
+ * 
+ * 1. Add event listener to common parent element
+ * 2. Determine what element originated the event
+ * 3. Matching strategy to identy element of interest
+ * 4. Based on logic, execute appropriate code
+ */
+
+document.querySelector('.nav__links').addEventListener('click', (e) => {
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    e.preventDefault();
+    document.querySelector(e.target.getAttribute('href')).scrollIntoView({behavior: 'smooth'})
+  }
+});
+
+// Older way; adding event handling function to each element
+
+// document.querySelectorAll('.nav__link').forEach((el) => {
+//   el.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     console.log(el.getAttribute('href'));
+//     document.querySelector(el.getAttribute('href')).scrollIntoView({behavior: 'smooth'})
+//   });
+// });
