@@ -116,7 +116,7 @@ document.querySelector('.nav__links').addEventListener('click', (e) => {
 // Tabbed Components
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabs = document.querySelectorAll('.operations__tab');
-const tabsContent = document.querySelectorAll('operations__content');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 tabsContainer.addEventListener('click', e => {
   // select the clicked element
@@ -131,7 +131,9 @@ tabsContainer.addEventListener('click', e => {
     tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
     // add active to currently clicked button
     tabClicked.classList.add('operations__tab--active');
+    // hide all tab contents
+    tabsContent.forEach(tabContent => tabContent.classList.remove('operations__content--active'));
+    // display the active tab content
+    document.querySelector(`.operations__content--${tabClicked.dataset.tab}`).classList.add('operations__content--active');
   }
-  
-
 });
