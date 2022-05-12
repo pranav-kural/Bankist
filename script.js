@@ -111,3 +111,27 @@ document.querySelector('.nav__links').addEventListener('click', (e) => {
 //     document.querySelector(el.getAttribute('href')).scrollIntoView({behavior: 'smooth'})
 //   });
 // });
+
+///////////////////////////////////////
+// Tabbed Components
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContent = document.querySelectorAll('operations__content');
+
+tabsContainer.addEventListener('click', e => {
+  // select the clicked element
+  const clicked = e.target;
+  // check for and select the button element
+  const tabClicked = clicked.closest('.operations__tab');
+  // Gaurd clause (if null, return execution)
+  if (!clicked) return;
+  // if button is clicked
+  if (clicked && tabClicked) {
+    // remove active from all
+    tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+    // add active to currently clicked button
+    tabClicked.classList.add('operations__tab--active');
+  }
+  
+
+});
