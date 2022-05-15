@@ -227,14 +227,25 @@ const sliderBtnRight = document.querySelector('.slider__btn--right');
 let currentSlide = 0;
 const maxSlides = slides.length-1;
 
-slides.forEach((s, i) => s.style.transform = `translateX(${i * 100}%)`);
+const goToSlide = (slide) => {
+  slides.forEach((s, i) => s.style.transform = `translateX(${(i - slide) * 100}%)`);
+}
 
-sliderBtnRight.addEventListener('click', () => {
-  currentSlide = (currentSlide === maxSlides) ? 0 : currentSlide + 1;
-  slides.forEach((s, i) => s.style.transform = `translateX(${(i - currentSlide) * 100}%)`);
-});
+// set initial position of slides
+goToSlide(0);
 
-sliderBtnLeft.addEventListener('click', () => {
-  currentSlide = (currentSlide === 0) ? maxSlides : currentSlide - 1;
-  slides.forEach((s, i) => s.style.transform = `translateX(${(i - currentSlide) * 100}%)`);
-});
+// event handler
+const moveSlides = (direction) => {
+
+  if (direction === 'left') {
+    currentSlide = (currentSlide === 0) ? maxSlides : currentSlide - 1;
+  } else if (direction === 'right') {
+    currentSlide = (currentSlide === maxSlides) ? 0 : currentSlide + 1;
+  }
+  goToSlide(currentSlide);
+}
+
+sliderBtnRight.addEventListener('click', () => moveSlides('right'));
+
+sliderBtnLeft.addEventListener('click', () => moveSlides('left'));
+
