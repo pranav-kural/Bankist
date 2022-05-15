@@ -217,3 +217,24 @@ const imgObserver = new IntersectionObserver(lazyLoadImages, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+///////////////////////////////////////
+// Slider Component
+
+const slides = document.querySelectorAll('.slide');
+const sliderBtnLeft = document.querySelector('.slider__btn--left');
+const sliderBtnRight = document.querySelector('.slider__btn--right');
+let currentSlide = 0;
+const maxSlides = slides.length-1;
+
+slides.forEach((s, i) => s.style.transform = `translateX(${i * 100}%)`);
+
+sliderBtnRight.addEventListener('click', () => {
+  currentSlide = (currentSlide === maxSlides) ? 0 : currentSlide + 1;
+  slides.forEach((s, i) => s.style.transform = `translateX(${(i - currentSlide) * 100}%)`);
+});
+
+sliderBtnLeft.addEventListener('click', () => {
+  currentSlide = (currentSlide === 0) ? maxSlides : currentSlide - 1;
+  slides.forEach((s, i) => s.style.transform = `translateX(${(i - currentSlide) * 100}%)`);
+});
