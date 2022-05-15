@@ -140,7 +140,6 @@ tabsContainer.addEventListener('click', e => {
 
 ///////////////////////////////////////
 // Menu fade animation
-
 const navContainer = document.querySelector('.nav');
 
 const handleNavHover = (event, opacity) => {
@@ -152,3 +151,19 @@ const handleNavHover = (event, opacity) => {
 
 navContainer.addEventListener('mouseover', (e) => handleNavHover(e, 0.5));
 navContainer.addEventListener('mouseout', (e) => handleNavHover(e, 1));
+
+///////////////////////////////////////
+// Sticky navigation: Intersection Observer API
+
+const stickyNav = (entries) => {
+  if (!entries[0].isIntersecting) navContainer.classList.add('sticky')
+  else navContainer.classList.remove('sticky');
+
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0
+});
+
+headerObserver.observe(document.querySelector(".header"));
