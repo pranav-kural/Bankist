@@ -168,3 +168,52 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 });
 
 headerObserver.observe(document.querySelector(".header"));
+
+///////////////////////////////////////
+// Revealing Sections During Scroll
+
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = (entries, obersver) => {
+  if (!entries[0].isIntersecting) return;
+  entries[0].target.classList.remove('section--hidden');
+  obersver.unobserve(entries[0].target);
+}
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(section => {
+  // hide all sections by default
+  section.classList.add('section--hidden');
+  // attach the observer
+  sectionObserver.observe(section);
+});
+
+///////////////////////////////////////
+// Lazy Loading images
+
+// select all images with property of data-src
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const lazyLoadImages = (entries, observer) => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  // replace src with data-src, and remove lazy-img class
+  entry.target.src = entry.target.dataset.src;
+  // Don't remove blur right away, because the image might not have loaded yet (depends on user's network)
+  // entry.target.classList.remove('lazy-img');
+  // remove blur after image has been successfully loaded
+  entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img'));
+  observer.unobserve(entry.target);
+}
+
+const imgObserver = new IntersectionObserver(lazyLoadImages, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
