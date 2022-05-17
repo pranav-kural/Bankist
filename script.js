@@ -46,7 +46,9 @@ message.innerHTML = `
 header.append(message);
 
 // delete cookie message
-document.querySelector('.btn--close-cookie').addEventListener('click', () => message.remove());
+document
+  .querySelector('.btn--close-cookie')
+  .addEventListener('click', () => message.remove());
 
 // styling
 message.style.backgroundColor = '#37383d';
@@ -55,15 +57,19 @@ message.style.width = '120%';
 // getting declared (not inline) styles of an element
 // getComputedStyle(message).color;
 
-message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 // changing css properties at root / document level (ex: implementing dark mode)
 // document.documentElement.style.setProperty('--color-primary', 'orangered');
 
 ///////////////////////////////////////
 // Smooth scroll to section 1
 
-document.querySelector('.btn--scroll-to').addEventListener('click', 
-    () => document.querySelector('#section--1').scrollIntoView({behavior: 'smooth'}));
+document
+  .querySelector('.btn--scroll-to')
+  .addEventListener('click', () =>
+    document.querySelector('#section--1').scrollIntoView({ behavior: 'smooth' })
+  );
 
 // NOTE: for older browsers which don't support Element.scrollIntoView()
 //
@@ -87,18 +93,20 @@ document.querySelector('.btn--scroll-to').addEventListener('click',
  * Using Event propagation (specifically the bubbling phase) to implement event deligation
  * Instead of attaching same event handling function to each child element, we simple implement
  * the logic in a single event handling function which is attached to the parent
- * 
+ *
  * 1. Add event listener to common parent element
  * 2. Determine what element originated the event
  * 3. Matching strategy to identy element of interest
  * 4. Based on logic, execute appropriate code
  */
 
-document.querySelector('.nav__links').addEventListener('click', (e) => {
+document.querySelector('.nav__links').addEventListener('click', e => {
   // Matching strategy
   if (e.target.classList.contains('nav__link')) {
     e.preventDefault();
-    document.querySelector(e.target.getAttribute('href')).scrollIntoView({behavior: 'smooth'})
+    document
+      .querySelector(e.target.getAttribute('href'))
+      .scrollIntoView({ behavior: 'smooth' });
   }
 });
 
@@ -132,9 +140,13 @@ tabsContainer.addEventListener('click', e => {
     // add active to currently clicked button
     tabClicked.classList.add('operations__tab--active');
     // hide all tab contents
-    tabsContent.forEach(tabContent => tabContent.classList.remove('operations__content--active'));
+    tabsContent.forEach(tabContent =>
+      tabContent.classList.remove('operations__content--active')
+    );
     // display the active tab content
-    document.querySelector(`.operations__content--${tabClicked.dataset.tab}`).classList.add('operations__content--active');
+    document
+      .querySelector(`.operations__content--${tabClicked.dataset.tab}`)
+      .classList.add('operations__content--active');
   }
 });
 
@@ -144,21 +156,25 @@ const navContainer = document.querySelector('.nav');
 
 const handleNavHover = (event, opacity) => {
   if (event.target.classList.contains('nav__link')) {
-    event.target.closest('.nav').querySelectorAll('.nav__link').forEach(el => (el !== event.target) ? el.style.opacity = opacity : null);
+    event.target
+      .closest('.nav')
+      .querySelectorAll('.nav__link')
+      .forEach(el =>
+        el !== event.target ? (el.style.opacity = opacity) : null
+      );
     event.target.closest('.nav').querySelector('img').style.opacity = opacity;
   }
-}
+};
 
-navContainer.addEventListener('mouseover', (e) => handleNavHover(e, 0.5));
-navContainer.addEventListener('mouseout', (e) => handleNavHover(e, 1));
+navContainer.addEventListener('mouseover', e => handleNavHover(e, 0.5));
+navContainer.addEventListener('mouseout', e => handleNavHover(e, 1));
 
 ///////////////////////////////////////
 // Sticky navigation: Intersection Observer API
 
-const stickyNav = (entries) => {
-  if (!entries[0].isIntersecting) navContainer.classList.add('sticky')
+const stickyNav = entries => {
+  if (!entries[0].isIntersecting) navContainer.classList.add('sticky');
   else navContainer.classList.remove('sticky');
-
 };
 
 const headerObserver = new IntersectionObserver(stickyNav, {
@@ -167,7 +183,7 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navContainer.getBoundingClientRect().height}px`,
 });
 
-headerObserver.observe(document.querySelector(".header"));
+headerObserver.observe(document.querySelector('.header'));
 
 ///////////////////////////////////////
 // Revealing Sections During Scroll
@@ -178,7 +194,7 @@ const revealSection = (entries, obersver) => {
   if (!entries[0].isIntersecting) return;
   entries[0].target.classList.remove('section--hidden');
   obersver.unobserve(entries[0].target);
-}
+};
 
 const sectionObserver = new IntersectionObserver(revealSection, {
   root: null,
@@ -206,9 +222,11 @@ const lazyLoadImages = (entries, observer) => {
   // Don't remove blur right away, because the image might not have loaded yet (depends on user's network)
   // entry.target.classList.remove('lazy-img');
   // remove blur after image has been successfully loaded
-  entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img'));
+  entry.target.addEventListener('load', () =>
+    entry.target.classList.remove('lazy-img')
+  );
   observer.unobserve(entry.target);
-}
+};
 
 const imgObserver = new IntersectionObserver(lazyLoadImages, {
   root: null,
@@ -225,27 +243,31 @@ const slides = document.querySelectorAll('.slide');
 const sliderBtnLeft = document.querySelector('.slider__btn--left');
 const sliderBtnRight = document.querySelector('.slider__btn--right');
 let currentSlide = 0;
-const maxSlides = slides.length-1;
+const maxSlides = slides.length - 1;
 
-const goToSlide = (slide) => {
-  slides.forEach((s, i) => s.style.transform = `translateX(${(i - slide) * 100}%)`);
-}
+const goToSlide = slide => {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${(i - slide) * 100}%)`)
+  );
+};
 
 // set initial position of slides
 goToSlide(0);
 
 // event handler
-const moveSlides = (direction) => {
-
+const moveSlides = direction => {
   if (direction === 'left') {
-    currentSlide = (currentSlide === 0) ? maxSlides : currentSlide - 1;
+    currentSlide = currentSlide === 0 ? maxSlides : currentSlide - 1;
   } else if (direction === 'right') {
-    currentSlide = (currentSlide === maxSlides) ? 0 : currentSlide + 1;
+    currentSlide = currentSlide === maxSlides ? 0 : currentSlide + 1;
   }
   goToSlide(currentSlide);
-}
+};
 
 sliderBtnRight.addEventListener('click', () => moveSlides('right'));
-
 sliderBtnLeft.addEventListener('click', () => moveSlides('left'));
 
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') moveSlides('left');
+  if (e.key === 'ArrowRight') moveSlides('right');
+});
